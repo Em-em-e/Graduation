@@ -1,0 +1,36 @@
+<!DOCTYPE hibernate-configuration PUBLIC
+	"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+<session-factory>
+
+	<!-- 数据连接信息
+		<property name="hibernate.connection.url">jdbc:mysql:///itcastoa</property>
+		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="hibernate.connection.username">root</property>
+		<property name="hibernate.connection.password">1234</property>
+	-->
+
+	<property name="hibernate.dialect">
+		org.hibernate.dialect.MySQLDialect
+	</property>
+
+	<!-- 其他配置信息 -->
+	<property name="show_sql">true</property>
+	<property name="hbm2ddl.auto">update</property>
+
+	<!-- 声明映射文件 -->
+	<mapping resource="com/endtcy/graduation/entity/Classes.hbm.xml" />
+	<mapping resource="com/endtcy/graduation/entity/Course.hbm.xml" />
+	<mapping resource="com/endtcy/graduation/entity/Evaluation.hbm.xml" />
+	<mapping resource="com/endtcy/graduation/entity/Student.hbm.xml" />
+	<mapping
+		resource="com/endtcy/graduation/entity/Studentwork.hbm.xml" />
+	<mapping resource="com/endtcy/graduation/entity/Teacher.hbm.xml" />
+	<mapping resource="com/endtcy/graduation/entity/Term.hbm.xml" />
+	<mapping resource="com/endtcy/graduation/entity/Work.hbm.xml" />
+
+
+</session-factory>
+</hibernate-configuration>

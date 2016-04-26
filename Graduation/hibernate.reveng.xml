@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+	<table name="CLASS" schema="WORKMANAGER" class="Classes">
+		<primary-key>
+			<generator class="sequence"></generator>
+		</primary-key>
+	</table>
+<table name="TERM" schema="WORKMANAGER" class="Term">
+	<primary-key>
+		<generator class="sequence"></generator>
+	</primary-key>
+</table>
+</hibernate-reverse-engineering>

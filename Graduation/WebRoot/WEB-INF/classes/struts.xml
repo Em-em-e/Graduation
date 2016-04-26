@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!-- 配置为开发模式 -->
+    <constant name="struts.devMode" value="true" />
+    <!-- 把action扩展名改为.do -->
+    <constant name="struts.action.extension" value="do" />
+    <!-- 把主题设为simple -->
+    <constant name="struts.ui.theme" value="simple" />
+    <!-- 设置允许最大值  50MB(1024*1024*50) --> 
+    <constant name="struts.multipart.maxSize" value="52428800" /> 
+    <!-- 设置全局编码格式 -->
+    <constant name="struts.i18n.encoding" value="utf-8"/>
+    
+    <!-- ==========================student包================================ -->
+    <package name="student" namespace="/student" extends="globalResult">
+    	<default-action-ref name="pagenotfound"></default-action-ref>
+    	<action name="pagenotfound">
+    		<result>/WEB-INF/error.html</result>
+    	</action>
+    	
+    	<!-- 学生主页action -->
+    	<action name="studentMain">
+    		<result>/WEB-INF/jsp/main/studentMain.jsp</result>
+    	</action>
+    	<!-- 跳转到上传作业界面的action -->
+    	<action name="uploadWorkForm" class="com.endtcy.graduation.action.StudentWorkAction">
+    		<result>/WEB-INF/jsp/uploadWork.jsp</result>
+    	</action>
+    	<!-- 作业上传action -->
+    	<action name="uploadWork" class="com.endtcy.graduation.action.StudentWorkAction" method="uploadWork">
+    		<interceptor-ref name="fileUpload">
+    			<param name="maximunSize">20971520</param>
+    		</interceptor-ref>
+    		<interceptor-ref name="defaultStack"></interceptor-ref>
+    		<result name="input">/WEB-INF/uploadError.html</result>
+    		<result type="redirectAction">student</result>
+    	</action>
+    	<!-- 获取作业列表    转到studentMain-->
+    	<action name="student" class="com.endtcy.graduation.action.StudentMainAction">
+    		<result name="success">/WEB-INF/jsp/main/studentMain.jsp</result>
+    	</action>
+    	<!-- 退出登录，跳转到登陆页面 -->
+    	<action name="loginout" class="com.endtcy.graduation.action.LoginAction" method="loginOut">
+    	</action>
+    	<action name="getCookie" class="com.endtcy.graduation.action.LoginAction" method="findCookie">
+    	</action>
+    </package>
+    <!-- ==========================teacher包================================ -->
+    <package name="teacher" namespace="/teacher" extends="globalResult">
+    	<default-action-ref name="pagenotfound"></default-action-ref>
+    	<action name="pagenotfound">
+    		<result>/WEB-INF/error.html</result>
+    	</action>
+    	<!-- ajax获取班级对应的课程 -->
+    	<action name="ajaxcourses" class="com.endtcy.graduation.action.AjaxFindCourseAction" method="findCourses">
+    	</action>
+    	<!-- 发布作业页面 -->
+    	<action name="addWorkForm" class="com.endtcy.graduation.action.WorkAction">
+    		<result>/WEB-INF/jsp/form.jsp</result>
+    	</action>
+    	<!-- 发布作业 -->
+    	<action name="addWork" class="com.endtcy.graduation.action.WorkAction" method="addWork">
+    		<interceptor-ref name="fileUpload">
+    			<param name="maximunSize">20971520</param>
+    		</interceptor-ref>
+    		<interceptor-ref name="defaultStack"></interceptor-ref>
+    		<result name="input">/WEB-INF/uploadError.html</result>
+    		<result>/WEB-INF/jsp/main/teacherMain.jsp</result>
+    	</action>
+    	<!-- 教师主页action -->
+    	<action name="teacherMain">
+    		<result>/WEB-INF/jsp/main/teacherMain.jsp</result>
+    	</action>
+    	<!-- 退出登录，跳转到登陆页面 -->
+    	<action name="loginout" class="com.endtcy.graduation.action.LoginAction" method="loginOut">
+    	</action>
+    </package>
+	<!-- ==========================公共action包================================ -->
+    <package name="default" namespace="/" extends="globalResult">
+    	
+    	<default-action-ref name="pagenotfound"></default-action-ref>
+    	<action name="pagenotfound">
+    		<result>/error.html</result>
+    	</action>
+    	<!-- ajax验证密码是否正确 -->
+    	<action name="verifyPsw" class="com.endtcy.graduation.action.UpdateUserAction" method="verifyPsw">
+    	</action>
+    	<!-- 更改密码action -->
+    	<action name="updatepsw" class="com.endtcy.graduation.action.UpdateUserAction" method="updatePsw">
+    		<result>/WEB-INF/jsp/updateUser/success.jsp</result>
+    		<result type="redirectAction" name="reinput">updateUser</result>
+    	</action>
+    	<!-- 修改个人信息页面跳转 -->
+    	<action name="updateUser" class="com.endtcy.graduation.action.UpdateUserAction">
+    		<result name="student_update">/WEB-INF/jsp/updateUser/updateStudent.jsp</result>
+    		<result name="teacher_update">/WEB-INF/jsp/updateUser/updateTeacher.jsp</result>
+    		<result name="manager_update">/WEB-INF/jsp/updateUser/updateManager.jsp</result>
+    	</action>
+    	<!-- 登陆 ,根据角色跳转到不同页面-->
+    	<action name="index" class="com.endtcy.graduation.action.LoginAction" method="login">
+    		<result name="fail">login.jsp</result>
+    		<result name="student">/student/main.html</result>
+    		<result name="teacher">/teacher/main.html</result>
+    		<result name="manager">/WEB-INF/jsp/main/managerMain.jsp</result>
+    	</action>
+    	<!-- 验证码action -->
+    	<action name="verifyCode" class="com.endtcy.graduation.util.CheckCode">
+    		<result name="success" type="stream">
+    			<param name="inputName">sos</param>
+    			<param name="contentType">image/jpg</param>
+    		</result>
+    	</action>
+    	<action name="getCookie" class="com.endtcy.graduation.action.LoginAction" method="findCookie">
+    	</action>
+    </package>
+    <!-- ============================全局404页面================================ -->
+    <package name="globalResult" extends="struts-default" abstract="true">
+    	<global-results>
+    		<result name="error">/WEB-INF/error.html</result>
+    		<result name="login">login.jsp</result>
+    	</global-results>
+    </package>
+
+</struts>
