@@ -180,7 +180,7 @@ $(document).ready(function(e) {
 		        	 <%if(lasttime.after(now)){%>
 		        		<a href="uploadWorkForm.do?wid=${id }" class="tablelink">修改</a>  
 		        		<%} %>
-		        	<a href="#" class="tablelink">查看详情</a></td>
+		        	<a href="workDetail.do?wid=${id }" class="tablelink">查看详情</a></td>
 		        </tr> 
 		    </s:iterator>    
         </tbody>
